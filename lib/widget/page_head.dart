@@ -1,3 +1,5 @@
+import 'package:SADPTool/widget/dialog_about.dart';
+import 'package:SADPTool/widget/dialog_setting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,11 +29,21 @@ class Head extends StatelessWidget {
                       Icons.settings,
                       color: Colors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) => SettingDialog(),
+                      );
+                    },
                   ),
                   IconButton(
                     icon: Icon(Icons.info, color: Colors.white),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) => AboutInfoDialog(),
+                      );
+                    },
                   ),
                 ],
               ),

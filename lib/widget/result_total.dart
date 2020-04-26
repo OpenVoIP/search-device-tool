@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
-  const Result({Key key}) : super(key: key);
+  const Result({Key key, this.total}) : super(key: key);
+  final int total;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class Result extends StatelessWidget {
           children: [
             Text("在线设备总数"),
             Divider(),
-            Text("1", style: TextStyle(fontSize: 40, color: Colors.green)),
+            Text('$total', style: TextStyle(fontSize: 40, color: Colors.green)),
           ],
         ));
   }
