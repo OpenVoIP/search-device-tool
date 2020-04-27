@@ -1,5 +1,5 @@
 name: SADPTool
-description: A new Flutter project.
+description: 局域网扫描程序
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -16,6 +16,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
+author: tqcenglish
+license: MIT
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
