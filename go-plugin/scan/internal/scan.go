@@ -128,6 +128,11 @@ func setupNetInfo(f string) {
 		}
 	}
 
+END:
+	if ipNet == nil || len(localHaddr) == 0 {
+		log.Error("无法获取本地网络信息")
+	}
+
 	// iface 重置
 	if utils.IsWindows() {
 		devices, err := pcap.FindAllDevs()
@@ -143,10 +148,6 @@ func setupNetInfo(f string) {
 				}
 			}
 		}
-	}
-END:
-	if ipNet == nil || len(localHaddr) == 0 {
-		log.Error("无法获取本地网络信息")
 	}
 }
 
