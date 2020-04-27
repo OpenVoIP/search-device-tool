@@ -6,6 +6,7 @@ import (
 	"encoding/binary"
 	"math/rand"
 	"net"
+	"scan/utils"
 	"time"
 
 	"github.com/google/gopacket"
@@ -50,7 +51,7 @@ func listenNBNS(ctx context.Context) {
 }
 
 // 根据ip生成含mdns请求包，包存储在 buffer里
-func nbns(buffer *Buffer) {
+func nbns(buffer *utils.Buffer) {
 	rand.Seed(time.Now().UnixNano())
 	tid := rand.Intn(0x7fff)
 	b := buffer.PrependBytes(12)
@@ -96,9 +97,9 @@ func sendNBNS(ip IP, mhaddr net.HardwareAddr) {
 		SrcIP:    srcIP,
 		DstIP:    dstIP,
 	}
-	bf := NewBuffer()
+	bf := utils.NewBuffer()
 	nbns(bf)
-	udpPayload := bf.data
+	udpPayload := bf.GetData()
 	udp := &layers.UDP{
 		SrcPort: layers.UDPPort(61666),
 		DstPort: layers.UDPPort(137),

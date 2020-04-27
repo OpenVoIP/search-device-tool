@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/binary"
 	"net"
+	"scan/utils"
 	"strings"
 	"time"
 
@@ -50,7 +51,7 @@ func listenMDNS(ctx context.Context) {
 }
 
 // 根据ip生成含mdns请求包，包存储在 buffer里
-func mdns(buffer *Buffer, ip string) {
+func mdns(buffer *utils.Buffer, ip string) {
 	b := buffer.PrependBytes(12)
 	binary.BigEndian.PutUint16(b, uint16(0))          // 0x0000 标识
 	binary.BigEndian.PutUint16(b[2:], uint16(0x0100)) // 标识
@@ -101,9 +102,9 @@ func sendMDNS(ip IP, mhaddr net.HardwareAddr) {
 		SrcIP:    srcIP,
 		DstIP:    dstIP,
 	}
-	bf := NewBuffer()
+	bf := utils.NewBuffer()
 	mdns(bf, ip.String())
-	udpPayload := bf.data
+	udpPayload := bf.GetData()
 	udp := &layers.UDP{
 		SrcPort: layers.UDPPort(60666),
 		DstPort: layers.UDPPort(5353),
@@ -150,7 +151,7 @@ func ParseMdns(data []byte) string {
 		}
 		// 包括 .local_ 7 个字符
 		if bto16([]byte{data[s-2], data[s-1]}) == uint16(num+7) {
-			return Reverse(buf.String())
+			return utils.Reverse(buf.String())
 		}
 		buf.WriteByte(data[s])
 	}

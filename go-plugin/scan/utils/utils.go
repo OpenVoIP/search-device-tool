@@ -1,10 +1,16 @@
-package internal
+package utils
 
 import "runtime"
 
+//Buffer data
 type Buffer struct {
 	data  []byte
 	start int
+}
+
+//GetData buffer data
+func (b *Buffer) GetData() []byte {
+	return b.data
 }
 
 //PrependBytes
