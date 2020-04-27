@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"scan/utils"
 	"sort"
 	"strings"
 	"sync"
 	"time"
 
+	"github.com/google/gopacket/pcap"
 	log "github.com/sirupsen/logrus"
 
 	manuf "github.com/timest/gomanuf"
@@ -109,13 +111,14 @@ func setupNetInfo(f string) {
 		}
 	}
 	if err != nil {
-		log.Fatal("无法获取本地网络信息:", err)
+		log.Errorf("无法获取本地网络信息:", err)
+		return
 	}
 	for _, it := range ifs {
 		addr, _ := it.Addrs()
 		for _, a := range addr {
 			if ip, ok := a.(*net.IPNet); ok && !ip.IP.IsLoopback() {
-				if ip.IP.To4() != nil {
+				if ip.IP.To4() != nil && strings.HasPrefix(ip.IP.To4().String(), "192.168") {
 					ipNet = ip
 					localHaddr = it.HardwareAddr
 					iface = it.Name
@@ -124,9 +127,26 @@ func setupNetInfo(f string) {
 			}
 		}
 	}
+
+	// iface 重置
+	if utils.IsWindows() {
+		devices, err := pcap.FindAllDevs()
+		if err != nil {
+			log.Error(err)
+			return
+		}
+		for _, device := range devices {
+			for _, address := range device.Addresses {
+				if strings.Contains(ipNet.IP.To4().String(), address.IP.String()) {
+					iface = device.Name
+					break
+				}
+			}
+		}
+	}
 END:
 	if ipNet == nil || len(localHaddr) == 0 {
-		log.Fatal("无法获取本地网络信息")
+		log.Error("无法获取本地网络信息")
 	}
 }
 

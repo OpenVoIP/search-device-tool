@@ -46,7 +46,8 @@ func sendArpPackage(ip IP) {
 	srcIP := net.ParseIP(ipNet.IP.String()).To4()
 	dstIP := net.ParseIP(ip.String()).To4()
 	if srcIP == nil || dstIP == nil {
-		log.Fatal("ip 解析出问题")
+		log.Error("ip 解析出问题")
+		return
 	}
 	// 以太网首部
 	// EthernetType 0x0806  ARP
@@ -75,12 +76,14 @@ func sendArpPackage(ip IP) {
 
 	handle, err := pcap.OpenLive(iface, 2048, false, 30*time.Second)
 	if err != nil {
-		log.Fatal("pcap打开失败:", err)
+		log.Errorf("pcap打开失败:", err)
+		return
 	}
 	defer handle.Close()
 
 	err = handle.WritePacketData(outgoingPacket)
 	if err != nil {
-		log.Fatal("发送arp数据包失败..")
+		log.Error("发送arp数据包失败..")
+		return
 	}
 }
