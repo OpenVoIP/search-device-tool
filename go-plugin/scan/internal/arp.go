@@ -10,7 +10,7 @@ import (
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
 	log "github.com/sirupsen/logrus"
-	manuf "github.com/timest/gomanuf"
+	manuf "github.com/tqcenglish/gomanuf"
 )
 
 func listenARP(ctx context.Context) {
