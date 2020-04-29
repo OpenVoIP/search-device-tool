@@ -4,6 +4,8 @@ class ScanItem {
   final String mac;
   final String hostname;
   final String manuf;
+  final String model;
 
-  ScanItem(this.ip, this.mac, this.hostname, this.manuf, this.number);
+  ScanItem(
+      this.ip, this.mac, this.hostname, this.manuf, this.number, this.model);
 }

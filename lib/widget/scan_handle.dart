@@ -1,5 +1,6 @@
 import 'package:SADPTool/model/item.dart';
 import 'package:SADPTool/utils/eventbus.dart';
+import 'package:SADPTool/utils/utils.dart';
 import 'package:SADPTool/widget/not_implemented_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,8 +26,18 @@ class _Handletate extends State<Handle> {
     var number = 0;
     data.forEach((key, value) {
       var values = value.split("###");
-      result
-          .add(ScanItem(values[0], values[1], values[2], values[3], number++));
+
+      //Zycoo 判断设备类型
+      var item = ScanItem(
+          values[0],
+          values[1],
+          values[2],
+          values[3],
+          number++,
+          values[3].toString().contains("Zycoo")
+              ? getModel(values[1].toString())
+              : "");
+      result.add(item);
     });
     bus.emit("scan_ok");
   }

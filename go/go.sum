@@ -54,6 +54,8 @@ github.com/timest/gomanuf v0.0.0-20171028040013-3d424250f36d h1:VhibMrHZVsOSztAz
 github.com/timest/gomanuf v0.0.0-20171028040013-3d424250f36d/go.mod h1:9ICtas4JOTsAr+/ARR3q1ThAUku0bMgOssHf+q36vN4=
 github.com/tqcenglish/gomanuf v0.0.1 h1:8xzwQYS+RP3FWO/2IGEwDsEVYpZNLfTPaddFne60qtI=
 github.com/tqcenglish/gomanuf v0.0.1/go.mod h1:6BbPWbyhWtYqajwQB3zbMT2NSfnNN8k/hXX8g/txvjw=
+github.com/tqcenglish/gomanuf v0.0.2 h1:Mkk+A6SXBaVbuUb8rr8WXhpzNXb+Ud90JCEanYg9v5c=
+github.com/tqcenglish/gomanuf v0.0.2/go.mod h1:6BbPWbyhWtYqajwQB3zbMT2NSfnNN8k/hXX8g/txvjw=
 github.com/tqcenglish/goscan v0.0.2 h1:TQlVFRfejCLZR8Dc0JVBkTamMAp16JTBMBnNn9AXrfM=
 github.com/tqcenglish/goscan v0.0.2/go.mod h1:/e55ulW3tAhqvAMLB3d0w9cdJngVCxHYeZVVfsbC8BM=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=

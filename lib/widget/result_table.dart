@@ -22,6 +22,7 @@ class _DataResultState extends State<DataResult> {
         DataCell(Text('${item.number}')),
         DataCell(Text(item.ip)),
         DataCell(Text(item.mac)),
+        DataCell(Text(item.model)),
         DataCell(Text(item.hostname)),
         DataCell(Text(item.manuf)),
       ]);
@@ -94,6 +95,19 @@ class _DataResultState extends State<DataResult> {
                     data.sort((a, b) => a.mac.compareTo(b.mac));
                   } else {
                     data.sort((a, b) => b.mac.compareTo(a.mac));
+                  }
+                });
+              }),
+          DataColumn(
+              label: Text("型号"),
+              onSort: (int columnIndex, bool ascending) {
+                setState(() {
+                  _sortColumnIndex = columnIndex;
+                  _sortAscending = ascending;
+                  if (ascending) {
+                    data.sort((a, b) => a.model.compareTo(b.model));
+                  } else {
+                    data.sort((a, b) => b.model.compareTo(a.model));
                   }
                 });
               }),

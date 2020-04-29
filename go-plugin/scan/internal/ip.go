@@ -10,6 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+//IP ip
 type IP uint32
 
 // 将 IP(uint32) 转换成 可读性IP字符串
@@ -24,7 +25,7 @@ func (ip IP) String() string {
 	return bf.String()
 }
 
-// 根据IP和mask换算内网IP范围
+//Table 根据IP和mask换算内网IP范围
 func Table(ipNet *net.IPNet) []IP {
 	ip := ipNet.IP.To4()
 	log.Info("本机ip:", ip)
@@ -48,12 +49,12 @@ func Table(ipNet *net.IPNet) []IP {
 	return data
 }
 
-// []byte --> IP
+//ParseIP []byte --> IP
 func ParseIP(b []byte) IP {
 	return IP(IP(b[0])<<24 + IP(b[1])<<16 + IP(b[2])<<8 + IP(b[3]))
 }
 
-// string --> IP
+//ParseIPString string --> IP
 func ParseIPString(s string) IP {
 	var b []byte
 	for _, i := range strings.Split(s, ".") {
