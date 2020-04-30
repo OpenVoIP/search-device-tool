@@ -6,11 +6,12 @@ import (
 	"strings"
 	"time"
 
+	"scan/manuf"
+
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
 	log "github.com/sirupsen/logrus"
-	manuf "github.com/tqcenglish/gomanuf"
 )
 
 func listenARP(ctx context.Context) {

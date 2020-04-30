@@ -14,7 +14,7 @@ import (
 	"github.com/google/gopacket/pcap"
 	log "github.com/sirupsen/logrus"
 
-	manuf "github.com/tqcenglish/gomanuf"
+	"scan/manuf"
 )
 
 // ipNet 存放 IP地址和子网掩码
