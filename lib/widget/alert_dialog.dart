@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
-class NotImplementedDialog extends StatelessWidget {
+class CustomDialog extends StatelessWidget {
+  CustomDialog({Key key, this.msg, this.title}) : super(key: key);
+  final String msg;
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('未实现'),
-      content: const Text('这个功能正在开发中 ...'),
+      title: Text(title),
+      content: Text(msg),
       actions: <Widget>[
         FlatButton(
           onPressed: () {

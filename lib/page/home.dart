@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               color: Colors.grey[100],
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Result(
                     total: total,
@@ -51,7 +51,13 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: Scrollbar(
-                child: DataResult(),
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      width: double.infinity,
+                      child: DataResult(),
+                    )),
               ),
             )
           ],

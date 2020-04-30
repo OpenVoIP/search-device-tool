@@ -51,95 +51,91 @@ class _DataResultState extends State<DataResult> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: DataTable(
-        sortColumnIndex: _sortColumnIndex,
-        sortAscending: _sortAscending,
-        showCheckboxColumn: true,
-        columns: [
-          DataColumn(
-              label: Text("编号"),
-              onSort: (int columnIndex, bool ascending) {
-                setState(() {
-                  _sortAscending = ascending;
-                  _sortColumnIndex = columnIndex;
-                  if (ascending) {
-                    data.sort((a, b) => a.number.compareTo(b.number));
-                  } else {
-                    data.sort((a, b) => b.number.compareTo(a.number));
-                  }
-                });
-              }),
-          DataColumn(
-              label: Text("IP 地址"),
-              onSort: (int columnIndex, bool ascending) {
-                setState(() {
-                  _sortColumnIndex = columnIndex;
-                  _sortAscending = ascending;
-                  if (ascending) {
-                    data.sort((a, b) => a.ip.compareTo(b.ip));
-                  } else {
-                    data.sort((a, b) => b.ip.compareTo(a.ip));
-                  }
-                });
-              }),
-          DataColumn(
-              label: Text("Mac 地址"),
-              onSort: (int columnIndex, bool ascending) {
-                setState(() {
-                  _sortColumnIndex = columnIndex;
-                  _sortAscending = ascending;
-                  if (ascending) {
-                    data.sort((a, b) => a.mac.compareTo(b.mac));
-                  } else {
-                    data.sort((a, b) => b.mac.compareTo(a.mac));
-                  }
-                });
-              }),
-          DataColumn(
-              label: Text("型号"),
-              onSort: (int columnIndex, bool ascending) {
-                setState(() {
-                  _sortColumnIndex = columnIndex;
-                  _sortAscending = ascending;
-                  if (ascending) {
-                    data.sort((a, b) => a.model.compareTo(b.model));
-                  } else {
-                    data.sort((a, b) => b.model.compareTo(a.model));
-                  }
-                });
-              }),
-          DataColumn(
-              label: Text("主机名"),
-              onSort: (int columnIndex, bool ascending) {
-                setState(() {
-                  _sortColumnIndex = columnIndex;
-                  _sortAscending = ascending;
-                  if (ascending) {
-                    data.sort((a, b) => a.hostname.compareTo(b.hostname));
-                  } else {
-                    data.sort((a, b) => b.hostname.compareTo(a.hostname));
-                  }
-                });
-              }),
-          DataColumn(
-              label: Text("厂家"),
-              onSort: (int columnIndex, bool ascending) {
-                setState(() {
-                  _sortColumnIndex = columnIndex;
-                  _sortAscending = ascending;
-                  if (ascending) {
-                    data.sort((a, b) => a.manuf.compareTo(b.manuf));
-                  } else {
-                    data.sort((a, b) => b.manuf.compareTo(a.manuf));
-                  }
-                });
-              }),
-        ],
-        rows: _createRows(),
-      ),
-    ));
+    return DataTable(
+      sortColumnIndex: _sortColumnIndex,
+      sortAscending: _sortAscending,
+      showCheckboxColumn: true,
+      columns: [
+        DataColumn(
+            label: Text("编号"),
+            onSort: (int columnIndex, bool ascending) {
+              setState(() {
+                _sortAscending = ascending;
+                _sortColumnIndex = columnIndex;
+                if (ascending) {
+                  data.sort((a, b) => a.number.compareTo(b.number));
+                } else {
+                  data.sort((a, b) => b.number.compareTo(a.number));
+                }
+              });
+            }),
+        DataColumn(
+            label: Text("IP 地址"),
+            onSort: (int columnIndex, bool ascending) {
+              setState(() {
+                _sortColumnIndex = columnIndex;
+                _sortAscending = ascending;
+                if (ascending) {
+                  data.sort((a, b) => a.ip.compareTo(b.ip));
+                } else {
+                  data.sort((a, b) => b.ip.compareTo(a.ip));
+                }
+              });
+            }),
+        DataColumn(
+            label: Text("Mac 地址"),
+            onSort: (int columnIndex, bool ascending) {
+              setState(() {
+                _sortColumnIndex = columnIndex;
+                _sortAscending = ascending;
+                if (ascending) {
+                  data.sort((a, b) => a.mac.compareTo(b.mac));
+                } else {
+                  data.sort((a, b) => b.mac.compareTo(a.mac));
+                }
+              });
+            }),
+        DataColumn(
+            label: Text("型号"),
+            onSort: (int columnIndex, bool ascending) {
+              setState(() {
+                _sortColumnIndex = columnIndex;
+                _sortAscending = ascending;
+                if (ascending) {
+                  data.sort((a, b) => a.model.compareTo(b.model));
+                } else {
+                  data.sort((a, b) => b.model.compareTo(a.model));
+                }
+              });
+            }),
+        DataColumn(
+            label: Text("主机名"),
+            onSort: (int columnIndex, bool ascending) {
+              setState(() {
+                _sortColumnIndex = columnIndex;
+                _sortAscending = ascending;
+                if (ascending) {
+                  data.sort((a, b) => a.hostname.compareTo(b.hostname));
+                } else {
+                  data.sort((a, b) => b.hostname.compareTo(a.hostname));
+                }
+              });
+            }),
+        DataColumn(
+            label: Text("厂家"),
+            onSort: (int columnIndex, bool ascending) {
+              setState(() {
+                _sortColumnIndex = columnIndex;
+                _sortAscending = ascending;
+                if (ascending) {
+                  data.sort((a, b) => a.manuf.compareTo(b.manuf));
+                } else {
+                  data.sort((a, b) => b.manuf.compareTo(a.manuf));
+                }
+              });
+            }),
+      ],
+      rows: _createRows(),
+    );
   }
 }

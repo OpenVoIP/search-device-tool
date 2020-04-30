@@ -15,8 +15,18 @@ class _AboutInfoDialogState extends State<AboutInfoDialog> {
         title: const Text('关于'),
         content: Column(
           children: [
-            const Text('版本: 1.0.0'),
-            const Text('内网设备扫描(不支持跨网段)'),
+            Row(
+              children: <Widget>[
+                Text('版本:'),
+                Text('0.0.1'),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text('使用说明:'),
+                Text('本程序使用 arp 扫描局域网内通信设备(即不支持跨网段)'),
+              ],
+            )
           ],
         ),
         actions: <Widget>[

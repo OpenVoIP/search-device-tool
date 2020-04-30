@@ -12,9 +12,22 @@ class Result extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text("在线设备总数"),
-            Divider(),
-            Text('$total', style: TextStyle(fontSize: 40, color: Colors.green)),
+            Padding(
+              padding: EdgeInsets.only(left: 50, right: 10),
+              child: Text("在线设备总数:"),
+            ),
+            Container(
+              height: 40,
+              padding: EdgeInsets.only(left: 5, right: 5),
+              child: VerticalDivider(
+                width: 2,
+                color: Colors.grey,
+              ),
+            ),
+            Container(
+              child: Text('$total',
+                  style: TextStyle(fontSize: 40, color: Colors.green)),
+            )
           ],
         ));
   }

@@ -13,6 +13,11 @@ class MyApp extends StatelessWidget {
       title: 'SADPTool',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'Roboto',
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          bodyText1: TextStyle(fontSize: 14.0),
+        ),
         primarySwatch: Colors.grey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

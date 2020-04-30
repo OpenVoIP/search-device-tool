@@ -1,7 +1,7 @@
 import 'package:SADPTool/model/item.dart';
 import 'package:SADPTool/utils/eventbus.dart';
 import 'package:SADPTool/utils/utils.dart';
-import 'package:SADPTool/widget/not_implemented_dialog.dart';
+import 'package:SADPTool/widget/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,6 +17,15 @@ class Handle extends StatefulWidget {
 class _Handletate extends State<Handle> {
   static const platform_complex_structure =
       const MethodChannel('tqcenglish.flutter.dev/scan');
+
+  void _download() async {
+    String result = await platform_complex_structure.invokeMethod('download');
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) =>
+          CustomDialog(msg: '保存路径 $result', title: "下载"),
+    );
+  }
 
   void _handleScan() async {
     var data = await platform_complex_structure.invokeMethod('startScan');
@@ -57,12 +66,7 @@ class _Handletate extends State<Handle> {
           Container(
             child: FlatButton(
               color: Colors.red,
-              onPressed: () => {
-                showDialog<void>(
-                  context: context,
-                  builder: (BuildContext context) => NotImplementedDialog(),
-                )
-              },
+              onPressed: () => {_download()},
               child: Text(
                 '导出',
                 style: TextStyle(color: Colors.white),
@@ -81,6 +85,7 @@ class _Handletate extends State<Handle> {
           ),
           Container(
               width: 200,
+              margin: EdgeInsets.only(right: 50),
               child: TextField(
                 onSubmitted: (text) {
                   bus.emit("filter", text);
