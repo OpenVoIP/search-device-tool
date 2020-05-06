@@ -28,6 +28,9 @@ class _Handletate extends State<Handle> {
   }
 
   void _handleScan() async {
+    // 通知刷新
+    bus.emit("scan_start");
+
     var data = await platform_complex_structure.invokeMethod('startScan');
 
     // 解析扫描结果
@@ -35,17 +38,16 @@ class _Handletate extends State<Handle> {
     var number = 0;
     data.forEach((key, value) {
       var values = value.split("###");
-
-      //Zycoo 判断设备类型
       var item = ScanItem(
-          values[0],
-          values[1],
-          values[2],
-          values[3],
-          number++,
-          values[3].toString().contains("Zycoo")
-              ? getModel(values[1].toString())
-              : "");
+        values[0],
+        values[1],
+        values[2],
+        values[3],
+        //Zycoo 判断设备类型
+        // values[3].toString().contains("Zycoo") ? getModel(values[1].toString()) : "" // 在后段直接获取
+        values[4],
+        number++,
+      );
       result.add(item);
     });
     bus.emit("scan_ok");

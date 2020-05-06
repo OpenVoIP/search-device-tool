@@ -17,7 +17,7 @@ import (
 func listenARP(ctx context.Context) {
 	handle, err := pcap.OpenLive(iface, 1024, false, 10*time.Second)
 	if err != nil {
-		log.Error("pcap打开失败:", err)
+		log.Errorf("pcap打开失败: %+v", err)
 	}
 	defer handle.Close()
 	handle.SetBPFFilter("arp")
@@ -31,7 +31,8 @@ func listenARP(ctx context.Context) {
 			if arp.Operation == 2 {
 				mac := net.HardwareAddr(arp.SourceHwAddress)
 				m := manuf.Search(mac.String())
-				pushData(ParseIP(arp.SourceProtAddress).String(), mac, "", m)
+				ip := ParseIP(arp.SourceProtAddress).String()
+				pushData(ip, mac, "", m)
 				if strings.Contains(m, "Apple") {
 					go sendMDNS(ParseIP(arp.SourceProtAddress), mac)
 				} else {
@@ -77,7 +78,7 @@ func sendArpPackage(ip IP) {
 
 	handle, err := pcap.OpenLive(iface, 2048, false, 30*time.Second)
 	if err != nil {
-		log.Errorf("pcap打开失败:", err)
+		log.Errorf("pcap打开失败: %+v", err)
 		return
 	}
 	defer handle.Close()

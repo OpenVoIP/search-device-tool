@@ -18,7 +18,7 @@ import (
 func listenNBNS(ctx context.Context) {
 	handle, err := pcap.OpenLive(iface, 1024, false, 10*time.Second)
 	if err != nil {
-		log.Errorf("pcap打开失败:", err)
+		log.Errorf("pcap打开失败:%+v", err)
 		return
 	}
 	defer handle.Close()
@@ -113,14 +113,14 @@ func sendNBNS(ip IP, mhaddr net.HardwareAddr) {
 	}
 	err := gopacket.SerializeLayers(buffer, opt, ether, ip4, udp, gopacket.Payload(udpPayload))
 	if err != nil {
-		log.Errorf("Serialize layers出现问题:", err)
+		log.Errorf("Serialize layers出现问题: %+v", err)
 		return
 	}
 	outgoingPacket := buffer.Bytes()
 
 	handle, err := pcap.OpenLive(iface, 1024, false, 10*time.Second)
 	if err != nil {
-		log.Errorf("pcap打开失败:", err)
+		log.Errorf("pcap打开失败: %+v", err)
 		return
 	}
 	defer handle.Close()

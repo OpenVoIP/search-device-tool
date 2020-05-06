@@ -24,6 +24,7 @@ var ipNet *net.IPNet
 // 本机的mac地址，发以太网包需要用到
 var localHaddr net.HardwareAddr
 
+// 指定网卡
 var iface string
 
 // 存放最终的数据，key[string] 存放的是IP地址
@@ -44,10 +45,15 @@ const (
 type Info struct {
 	// IP地址
 	Mac net.HardwareAddr
+
 	// 主机名
 	Hostname string
+
 	// 厂商信息
 	Manuf string
+
+	// Model
+	Model string
 }
 
 //PrintData 格式化输出结果
@@ -81,7 +87,12 @@ func pushData(ip string, mac net.HardwareAddr, hostname, manuf string) {
 		mu.RUnlock()
 	}()
 	if _, ok := deviceInfos[ip]; !ok {
-		deviceInfos[ip] = Info{Mac: mac, Hostname: hostname, Manuf: manuf}
+		deviceInfos[ip] = Info{
+			Mac:      mac,
+			Hostname: hostname,
+			Manuf:    manuf,
+			Model:    utils.GetModel(mac.String()),
+		}
 		return
 	}
 	info := deviceInfos[ip]
@@ -94,26 +105,30 @@ func pushData(ip string, mac net.HardwareAddr, hostname, manuf string) {
 	if mac != nil {
 		info.Mac = mac
 	}
+
 	deviceInfos[ip] = info
 }
 
-func setupNetInfo(f string) {
+// 获取指定网卡信息
+func setupNetInfo(faceName string) {
 	var ifs []net.Interface
 	var err error
-	if f == "" {
+
+	// 若已经选择网卡使用指定网卡，否则从多个网卡选择一个合适网卡
+	if faceName == "" {
 		ifs, err = net.Interfaces()
 	} else {
-		// 已经选择iface
 		var it *net.Interface
-		it, err = net.InterfaceByName(f)
+		it, err = net.InterfaceByName(faceName)
 		if err == nil {
 			ifs = append(ifs, *it)
 		}
 	}
 	if err != nil {
-		log.Errorf("无法获取本地网络信息:", err)
+		log.Errorf("无法获取本地网络信息: %+v", err)
 		return
 	}
+
 	for _, it := range ifs {
 		addr, _ := it.Addrs()
 		for _, a := range addr {
@@ -133,7 +148,7 @@ END:
 		log.Error("无法获取本地网络信息")
 	}
 
-	// iface 重置
+	// iface Name 重置
 	if utils.IsWindows() {
 		devices, err := pcap.FindAllDevs()
 		if err != nil {
@@ -165,8 +180,7 @@ func sendARP() {
 }
 
 //Scan 扫描
-func Scan(interfaceName string, printData func(map[string]Info)) {
-
+func Scan(interfaceName string, callback func(map[string]Info)) {
 	iface = interfaceName
 
 	// 初始化 data
@@ -176,6 +190,7 @@ func Scan(interfaceName string, printData func(map[string]Info)) {
 	// 初始化 网络信息
 	setupNetInfo(iface)
 
+	// 开始查询
 	ctx, cancel := context.WithCancel(context.Background())
 	go listenARP(ctx)
 	go listenMDNS(ctx)
@@ -187,8 +202,8 @@ func Scan(interfaceName string, printData func(map[string]Info)) {
 	for {
 		select {
 		case <-t.C:
-			if printData != nil {
-				printData(deviceInfos)
+			if callback != nil {
+				callback(deviceInfos)
 			} else {
 				PrintData(deviceInfos)
 			}
@@ -199,8 +214,8 @@ func Scan(interfaceName string, printData func(map[string]Info)) {
 			case START:
 				t.Stop()
 			case END:
-				// 接收到新数据，重置2秒的计数器
-				t = time.NewTicker(2 * time.Second)
+				// 接收到新数据，重置4秒的计数器
+				t = time.NewTicker(4 * time.Second)
 			}
 		}
 	}

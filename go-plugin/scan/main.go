@@ -29,7 +29,7 @@ var Results map[interface{}]interface{}
 //InitPlugin inits
 func (p *PluginInfo) InitPlugin(messenger plugin.BinaryMessenger) error {
 	channel := plugin.NewMethodChannel(messenger, channelName, plugin.StandardMethodCodec{})
-	channel.HandleFunc("startScan", p.handle)
+	channel.HandleFunc("startScan", p.scan)
 	channel.HandleFunc("download", p.download)
 
 	//init
@@ -38,8 +38,8 @@ func (p *PluginInfo) InitPlugin(messenger plugin.BinaryMessenger) error {
 	return nil // no error
 }
 
-//PrintData 打印数据
-func PrintData(deviceInfos map[string]internal.Info) {
+//HandleScanData 打印数据
+func HandleScanData(deviceInfos map[string]internal.Info) {
 	Results = make(map[interface{}]interface{})
 	var keys internal.IPSlice
 	for k := range deviceInfos {
@@ -52,14 +52,15 @@ func PrintData(deviceInfos map[string]internal.Info) {
 		if d.Mac != nil {
 			mac = d.Mac.String()
 		}
-		value := fmt.Sprintf("%s###%s###%s###%s", k.String(), mac, d.Hostname, d.Manuf)
+		value := fmt.Sprintf("%s###%s###%s###%s###%s", k.String(), mac, d.Hostname, d.Manuf, d.Model)
+		// log.Infof("scan value %s", value)
 		Results[k.String()] = value
 	}
 }
 
-// handle 处理
-func (p *PluginInfo) handle(arguments interface{}) (reply interface{}, err error) {
-	internal.Scan("", PrintData)
+// scan 处理
+func (p *PluginInfo) scan(arguments interface{}) (reply interface{}, err error) {
+	internal.Scan("", HandleScanData)
 	return Results, nil
 }
 

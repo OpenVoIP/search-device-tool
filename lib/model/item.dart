@@ -7,5 +7,5 @@ class ScanItem {
   final String model;
 
   ScanItem(
-      this.ip, this.mac, this.hostname, this.manuf, this.number, this.model);
+      this.ip, this.mac, this.hostname, this.manuf, this.model, this.number);
 }
