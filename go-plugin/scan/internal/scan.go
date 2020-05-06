@@ -27,8 +27,8 @@ var localHaddr net.HardwareAddr
 // 指定网卡
 var iface string
 
-// 存放最终的数据，key[string] 存放的是IP地址
-var deviceInfos map[string]Info
+//infos 存放最终的数据，key[string] 存放的是IP地址
+var infos sync.Map
 
 // 计时器，在一段时间没有新的数据写入data中，退出程序，反之重置计时器
 var t *time.Ticker
@@ -59,19 +59,20 @@ type Info struct {
 //PrintData 格式化输出结果
 // xxx.xxx.xxx.xxx  xx:xx:xx:xx:xx:xx  hostname  manuf
 // xxx.xxx.xxx.xxx  xx:xx:xx:xx:xx:xx  hostname  manuf
-func PrintData(deviceInfos map[string]Info) {
+func PrintData(deviceInfos *sync.Map) {
 	var keys IPSlice
-	for k := range deviceInfos {
-		keys = append(keys, ParseIPString(k))
-	}
-	sort.Sort(keys)
-	for _, k := range keys {
-		d := deviceInfos[k.String()]
+	deviceInfos.Range(func(k, v interface{}) bool {
+		keys = append(keys, ParseIPString(k.(string)))
+		sort.Sort(keys)
+		return true
+	})
+	for _, key := range keys {
+		d, _ := deviceInfos.Load(key.String())
 		mac := ""
-		if d.Mac != nil {
-			mac = d.Mac.String()
+		if d.(Info).Mac != nil {
+			mac = d.(Info).Mac.String()
 		}
-		fmt.Printf("%-15s %-17s %-30s %-10s\n", k.String(), mac, d.Hostname, d.Manuf)
+		fmt.Printf("%-15s %-17s %-30s %-10s\n", key.String(), mac, d.(Info).Hostname, d.(Info).Manuf)
 	}
 }
 
@@ -86,16 +87,17 @@ func pushData(ip string, mac net.HardwareAddr, hostname, manuf string) {
 		do <- END
 		mu.RUnlock()
 	}()
-	if _, ok := deviceInfos[ip]; !ok {
-		deviceInfos[ip] = Info{
+	if _, ok := infos.Load(ip); !ok {
+		infos.Store(ip, Info{
 			Mac:      mac,
 			Hostname: hostname,
 			Manuf:    manuf,
 			Model:    utils.GetModel(mac.String()),
-		}
+		})
 		return
 	}
-	info := deviceInfos[ip]
+	v, _ := infos.Load(ip)
+	info := v.(Info)
 	if len(hostname) > 0 && len(info.Hostname) == 0 {
 		info.Hostname = hostname
 	}
@@ -106,7 +108,7 @@ func pushData(ip string, mac net.HardwareAddr, hostname, manuf string) {
 		info.Mac = mac
 	}
 
-	deviceInfos[ip] = info
+	infos.Store(ip, info)
 }
 
 // 获取指定网卡信息
@@ -168,7 +170,9 @@ END:
 
 func localHost() {
 	host, _ := os.Hostname()
-	deviceInfos[ipNet.IP.String()] = Info{Mac: localHaddr, Hostname: strings.TrimSuffix(host, ".local"), Manuf: manuf.Search(localHaddr.String())}
+	infos.Store(
+		ipNet.IP.String(),
+		Info{Mac: localHaddr, Hostname: strings.TrimSuffix(host, ".local"), Manuf: manuf.Search(localHaddr.String())})
 }
 
 func sendARP() {
@@ -180,11 +184,10 @@ func sendARP() {
 }
 
 //Scan 扫描
-func Scan(interfaceName string, callback func(map[string]Info)) {
+func Scan(interfaceName string, callback func(*sync.Map)) {
 	iface = interfaceName
 
 	// 初始化 data
-	deviceInfos = make(map[string]Info)
 	do = make(chan string)
 
 	// 初始化 网络信息
@@ -203,9 +206,9 @@ func Scan(interfaceName string, callback func(map[string]Info)) {
 		select {
 		case <-t.C:
 			if callback != nil {
-				callback(deviceInfos)
+				callback(&infos)
 			} else {
-				PrintData(deviceInfos)
+				PrintData(&infos)
 			}
 			cancel()
 			goto END

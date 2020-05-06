@@ -152,9 +152,9 @@ class _DataResultState extends State<DataResult> {
         : Container(
             height: MediaQuery.of(context).size.height - 200,
             child: Center(
-                child: SpinKitDoubleBounce(
-              color: Colors.green,
-              size: 200.0,
+                child: SpinKitFadingCircle(
+              color: Colors.black,
+              size: 100.0,
             )));
   }
 }

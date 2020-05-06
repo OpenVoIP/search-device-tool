@@ -6,6 +6,7 @@ import (
 	"scan/utils"
 	"sort"
 	"strings"
+	"sync"
 
 	log "github.com/sirupsen/logrus"
 
@@ -39,22 +40,26 @@ func (p *PluginInfo) InitPlugin(messenger plugin.BinaryMessenger) error {
 }
 
 //HandleScanData 打印数据
-func HandleScanData(deviceInfos map[string]internal.Info) {
+func HandleScanData(deviceInfos *sync.Map) {
+
 	Results = make(map[interface{}]interface{})
 	var keys internal.IPSlice
-	for k := range deviceInfos {
-		keys = append(keys, internal.ParseIPString(k))
-	}
+	deviceInfos.Range(func(k, v interface{}) bool {
+		keys = append(keys, internal.ParseIPString(k.(string)))
+		sort.Sort(keys)
+		return true
+	})
 	sort.Sort(keys)
-	for _, k := range keys {
-		d := deviceInfos[k.String()]
+
+	for _, key := range keys {
+		d, _ := deviceInfos.Load(key.String())
 		mac := ""
-		if d.Mac != nil {
-			mac = d.Mac.String()
+		if d.(internal.Info).Mac != nil {
+			mac = d.(internal.Info).Mac.String()
 		}
-		value := fmt.Sprintf("%s###%s###%s###%s###%s", k.String(), mac, d.Hostname, d.Manuf, d.Model)
+		value := fmt.Sprintf("%s###%s###%s###%s###%s", key.String(), mac, d.(internal.Info).Hostname, d.(internal.Info).Manuf, d.(internal.Info).Model)
 		// log.Infof("scan value %s", value)
-		Results[k.String()] = value
+		Results[key.String()] = value
 	}
 }
 

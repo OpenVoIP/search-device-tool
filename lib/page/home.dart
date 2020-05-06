@@ -25,9 +25,11 @@ class _HomePageState extends State<HomePage> {
       });
     });
     bus.on('scan_start', (arg) {
-      setState(() {
-        total = 0;
-      });
+      if (mounted && total > 0) {
+        setState(() {
+          total = 0;
+        });
+      }
     });
     super.initState();
   }
