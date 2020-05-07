@@ -1,3 +1,4 @@
+import 'package:SADPTool/utils/eventbus.dart';
 import 'package:SADPTool/widget/dialog_about.dart';
 import 'package:SADPTool/widget/dialog_setting.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,12 @@ class Head extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) => AboutInfoDialog(),
                       );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.update, color: Colors.white),
+                    onPressed: () {
+                      bus.emit("open_drawer");
                     },
                   ),
                 ],

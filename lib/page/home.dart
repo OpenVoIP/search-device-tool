@@ -1,4 +1,5 @@
 import 'package:SADPTool/utils/eventbus.dart';
+import 'package:SADPTool/widget/darwer.dart';
 import 'package:SADPTool/widget/page_head.dart';
 import 'package:SADPTool/widget/result_table.dart';
 import 'package:SADPTool/widget/result_total.dart';
@@ -15,6 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int total = 0;
 
   @override
@@ -31,16 +33,17 @@ class _HomePageState extends State<HomePage> {
         });
       }
     });
+    bus.on('open_drawer', (arg) {
+      _scaffoldKey.currentState.openEndDrawer();
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
-        constraints: BoxConstraints(
-            // minWidth: 400,
-            ),
         child: Column(
           children: [
             Head(),
@@ -70,6 +73,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      endDrawer: Update(),
     );
   }
 }
