@@ -77,8 +77,12 @@ class _Handletate extends State<Handle> {
             padding: EdgeInsets.all(20.0),
           ),
           Container(
-            child: OutlineButton(
-              child: Text("刷新"),
+            child: FlatButton(
+              color: Colors.blue,
+              child: Text(
+                "刷新",
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () {
                 _handleScan();
               },

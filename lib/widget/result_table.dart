@@ -1,7 +1,7 @@
 import 'package:SADPTool/common.dart';
 import 'package:SADPTool/model/item.dart';
 import 'package:SADPTool/utils/eventbus.dart';
-import 'package:SADPTool/widget/loading_painter.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -14,23 +14,50 @@ class DataResult extends StatefulWidget {
 }
 
 class _DataResultState extends State<DataResult> {
+  static const platform_complex_structure =
+      const MethodChannel('tqcenglish.flutter.dev/scan');
+
   List<ScanItem> data = List<ScanItem>();
+
   bool _sortAscending = false;
   int _sortColumnIndex = 0;
 
+  void _openURL(url) async {
+    await platform_complex_structure.invokeMethod('open_url', url);
+  }
+
   List<DataRow> _createRows() {
     List<DataRow> newList = data.map((item) {
-      return DataRow(cells: [
-        DataCell(Text('${item.number}')),
-        DataCell(Text(item.ip)),
-        DataCell(Text(item.mac)),
-        DataCell(Text(
-          item.model,
-          style: TextStyle(color: Colors.red),
-        )),
-        DataCell(Text(item.hostname)),
-        DataCell(Text(item.manuf)),
-      ]);
+      return DataRow(
+          selected: selectedData.contains(item),
+          onSelectChanged: (value) {
+            setState(() {
+              if (value) {
+                selectedData.add(item);
+              } else {
+                selectedData.remove(item);
+              }
+            });
+          },
+          cells: [
+            DataCell(Text('${item.number}')),
+            DataCell(
+              Text(
+                item.ip,
+                style: TextStyle(color: Colors.blue),
+              ),
+              onTap: item.model != ""
+                  ? () => {_openURL('http://${item.ip}:80')}
+                  : null,
+            ),
+            DataCell(Text(item.mac)),
+            DataCell(Text(
+              item.model,
+              style: TextStyle(color: Colors.red),
+            )),
+            DataCell(Text(item.hostname)),
+            DataCell(Text(item.manuf)),
+          ]);
     }).toList();
     return newList;
   }

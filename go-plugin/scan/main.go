@@ -1,7 +1,10 @@
 package scan
 
 import (
+	"errors"
 	"fmt"
+	"os/exec"
+	"runtime"
 	"scan/internal"
 	"scan/utils"
 	"sort"
@@ -32,6 +35,7 @@ func (p *PluginInfo) InitPlugin(messenger plugin.BinaryMessenger) error {
 	channel := plugin.NewMethodChannel(messenger, channelName, plugin.StandardMethodCodec{})
 	channel.HandleFunc("startScan", p.scan)
 	channel.HandleFunc("download", p.download)
+	channel.HandleFunc("open_url", p.openURL)
 
 	//init
 	p.stop = make(chan bool, 1)
@@ -114,4 +118,19 @@ func (p *PluginInfo) download(arguments interface{}) (replay interface{}, err er
 	}
 	log.Info("下载成功")
 	return home, nil
+}
+
+func (p *PluginInfo) openURL(arguments interface{}) (replay interface{}, err error) {
+	switch runtime.GOOS {
+	case "windows":
+		exec.Command(`cmd`, `/c`, `start`, arguments.(string)).Start()
+	case "darwin":
+		exec.Command(`open`, arguments.(string)).Start()
+	case "linux":
+		exec.Command(`xdg-open`, arguments.(string)).Start()
+	default:
+		return nil, errors.New("not support platform")
+	}
+
+	return nil, nil
 }

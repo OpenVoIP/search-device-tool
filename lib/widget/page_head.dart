@@ -47,7 +47,7 @@ class Head extends StatelessWidget {
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.update, color: Colors.white),
+                    icon: Icon(Icons.build, color: Colors.white),
                     onPressed: () {
                       bus.emit("open_drawer");
                     },

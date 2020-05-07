@@ -1,3 +1,5 @@
+import 'package:SADPTool/common.dart';
+import 'package:SADPTool/utils/eventbus.dart';
 import 'package:SADPTool/widget/divider_admin.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,11 @@ class _UpdateState extends State<Update> {
   bool _checkboxDHCP = true; //维护复选框状态
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: 600,
@@ -23,8 +30,8 @@ class _UpdateState extends State<Update> {
             Container(
               margin: EdgeInsets.all(20),
               child: Text(
-                '修改设备网络',
-                style: TextStyle(fontSize: 40),
+                '修改 ${selectedData.length} 台设备网络',
+                style: TextStyle(fontSize: 30),
               ),
             ),
             Container(
@@ -58,8 +65,8 @@ class _UpdateState extends State<Update> {
                       enabled: !_checkboxDHCP,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: "IP",
-                        labelStyle: TextStyle(fontSize: 30),
+                        labelText: "开始 IP",
+                        labelStyle: TextStyle(fontSize: 25),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -73,7 +80,7 @@ class _UpdateState extends State<Update> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "端口",
-                        labelStyle: TextStyle(fontSize: 30),
+                        labelStyle: TextStyle(fontSize: 25),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -88,7 +95,7 @@ class _UpdateState extends State<Update> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "子网掩码",
-                        labelStyle: TextStyle(fontSize: 30),
+                        labelStyle: TextStyle(fontSize: 25),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -103,7 +110,7 @@ class _UpdateState extends State<Update> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "网关",
-                        labelStyle: TextStyle(fontSize: 30),
+                        labelStyle: TextStyle(fontSize: 25),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -119,7 +126,7 @@ class _UpdateState extends State<Update> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "管理员密码",
-                        labelStyle: TextStyle(fontSize: 30),
+                        labelStyle: TextStyle(fontSize: 25),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -144,7 +151,7 @@ class _UpdateState extends State<Update> {
                           },
                           child: Text(
                             '提交修改',
-                            style: TextStyle(color: Colors.white, fontSize: 30),
+                            style: TextStyle(color: Colors.white, fontSize: 25),
                           ),
                         ),
                       ),
