@@ -3,6 +3,8 @@ package utils
 import (
 	"runtime"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 //Buffer data
@@ -50,5 +52,6 @@ func GetModel(mac string) string {
 		return ""
 	}
 	var info = strings.Split(mac, ":")[3]
+	log.Infof("%s=>%s", info, MACModelMap[info])
 	return MACModelMap[info]
 }

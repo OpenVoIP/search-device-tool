@@ -34,7 +34,7 @@ var Results map[interface{}]interface{}
 //InitPlugin inits
 func (p *PluginInfo) InitPlugin(messenger plugin.BinaryMessenger) error {
 	channel := plugin.NewMethodChannel(messenger, channelName, plugin.StandardMethodCodec{})
-	channel.HandleFunc("startScan", p.scan)
+	channel.HandleFunc("start_scan", p.scan)
 	channel.HandleFunc("download", p.download)
 	channel.HandleFunc("open_url", p.openURL)
 	channel.HandleFunc("create_token", p.createToken)
@@ -47,7 +47,6 @@ func (p *PluginInfo) InitPlugin(messenger plugin.BinaryMessenger) error {
 
 //HandleScanData 打印数据
 func HandleScanData(deviceInfos *sync.Map) {
-
 	Results = make(map[interface{}]interface{})
 	var keys internal.IPSlice
 	deviceInfos.Range(func(k, v interface{}) bool {

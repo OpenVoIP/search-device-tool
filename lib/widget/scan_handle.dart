@@ -26,7 +26,7 @@ class _Handletate extends State<Handle> {
     // 通知刷新
     bus.emit("scan_start");
 
-    var data = await platform_complex_structure.invokeMethod('startScan');
+    var data = await platform_complex_structure.invokeMethod('start_scan');
 
     // 解析扫描结果
     result.clear();

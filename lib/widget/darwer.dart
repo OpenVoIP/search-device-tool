@@ -197,10 +197,8 @@ class _UpdateState extends State<Update> {
                                   print(token);
                                   String resultRes = await fetchNetworkUpdate(
                                       device.ip, token, data);
+                                  print(resultRes);
 
-                                  // If the form is valid, display a Snackbar.
-                                  Scaffold.of(context).showSnackBar(
-                                      SnackBar(content: Text('$resultRes')));
                                 });
                                 Navigator.of(context).pop();
                               }
