@@ -1,3 +1,22 @@
+// 对当前 ip +1
+String ipPlusOne(String ip) {
+  var ipValue = ip.split('.').toList();
+  if (ipValue.length != 4) {
+    print(ip);
+    return "";
+  }
+  var ip3 = int.parse(ipValue[3]);
+  var ip2 = int.parse(ipValue[2]);
+
+  if (ip3 == 255) {
+    ip2++;
+    ip3 = 0;
+  } else {
+    ip3++;
+  }
+  return '${ipValue[0]}.${ipValue[1]}.$ip2.$ip3';
+}
+
 String getModel(String mac) {
   var info = mac.split(":").toList()[3];
   var model = "";

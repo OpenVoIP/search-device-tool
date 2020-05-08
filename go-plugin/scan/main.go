@@ -11,6 +11,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/dgrijalva/jwt-go"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
@@ -36,6 +37,7 @@ func (p *PluginInfo) InitPlugin(messenger plugin.BinaryMessenger) error {
 	channel.HandleFunc("startScan", p.scan)
 	channel.HandleFunc("download", p.download)
 	channel.HandleFunc("open_url", p.openURL)
+	channel.HandleFunc("create_token", p.createToken)
 
 	//init
 	p.stop = make(chan bool, 1)
@@ -133,4 +135,18 @@ func (p *PluginInfo) openURL(arguments interface{}) (replay interface{}, err err
 	}
 
 	return nil, nil
+}
+
+func (p *PluginInfo) createToken(arguments interface{}) (replay interface{}, err error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		// "nbf": time.Date(2015, 10, 10, 12, 0, 0, 0, time.UTC).Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte(arguments.(string)))
+	if err != nil {
+		log.Fatal("createToken", err)
+		return nil, err
+	}
+
+	return tokenString, nil
 }

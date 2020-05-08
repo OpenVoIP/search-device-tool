@@ -36,6 +36,10 @@ class _HomePageState extends State<HomePage> {
     bus.on('open_drawer', (arg) {
       _scaffoldKey.currentState.openEndDrawer();
     });
+    bus.on('close_drawer', (arg) {
+      _scaffoldKey.currentState.openEndDrawer();
+    });
+
     super.initState();
   }
 

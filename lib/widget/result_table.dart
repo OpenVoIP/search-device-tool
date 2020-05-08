@@ -1,7 +1,6 @@
 import 'package:SADPTool/common.dart';
 import 'package:SADPTool/model/item.dart';
 import 'package:SADPTool/utils/eventbus.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -14,9 +13,6 @@ class DataResult extends StatefulWidget {
 }
 
 class _DataResultState extends State<DataResult> {
-  static const platform_complex_structure =
-      const MethodChannel('tqcenglish.flutter.dev/scan');
-
   List<ScanItem> data = List<ScanItem>();
 
   bool _sortAscending = false;

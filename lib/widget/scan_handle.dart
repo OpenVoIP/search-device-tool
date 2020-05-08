@@ -1,9 +1,7 @@
 import 'package:SADPTool/model/item.dart';
 import 'package:SADPTool/utils/eventbus.dart';
-import 'package:SADPTool/utils/utils.dart';
 import 'package:SADPTool/widget/alert_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../common.dart';
 
@@ -15,9 +13,6 @@ class Handle extends StatefulWidget {
 }
 
 class _Handletate extends State<Handle> {
-  static const platform_complex_structure =
-      const MethodChannel('tqcenglish.flutter.dev/scan');
-
   void _download() async {
     String result = await platform_complex_structure.invokeMethod('download');
     showDialog<void>(
@@ -35,6 +30,8 @@ class _Handletate extends State<Handle> {
 
     // 解析扫描结果
     result.clear();
+    selectedData.clear();
+
     var number = 0;
     data.forEach((key, value) {
       var values = value.split("###");
