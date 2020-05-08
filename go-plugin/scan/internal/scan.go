@@ -18,7 +18,6 @@ import (
 )
 
 // ipNet 存放 IP地址和子网掩码
-
 var ipNet *net.IPNet
 
 // 本机的mac地址，发以太网包需要用到
@@ -188,6 +187,7 @@ func Scan(interfaceName string, callback func(*sync.Map)) {
 	iface = interfaceName
 
 	// 初始化 data
+	infos = sync.Map{}
 	do = make(chan string)
 
 	// 初始化 网络信息
