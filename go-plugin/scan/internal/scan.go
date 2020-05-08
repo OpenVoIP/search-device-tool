@@ -187,7 +187,6 @@ func Scan(interfaceName string, callback func(*sync.Map)) {
 	iface = interfaceName
 
 	// 初始化 data
-	infos = sync.Map{}
 	do = make(chan string)
 	infos.Range(func(key interface{}, value interface{}) bool {
 		infos.Delete(key)
