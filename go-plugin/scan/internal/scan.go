@@ -189,6 +189,10 @@ func Scan(interfaceName string, callback func(*sync.Map)) {
 
 	// 初始化 data
 	do = make(chan string)
+	infos.Range(func(key interface{}, value interface{}) bool {
+		infos.Delete(key)
+		return true
+	})
 
 	// 初始化 网络信息
 	setupNetInfo(iface)
