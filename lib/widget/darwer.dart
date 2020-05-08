@@ -14,17 +14,11 @@ class Update extends StatefulWidget {
 class _UpdateState extends State<Update> {
   final _formKey = GlobalKey<FormState>();
   bool _checkboxDHCP = true; //维护复选框状态
-  String token;
 
   String password;
   String gateway;
   String mask;
   String ipStart;
-
-  void _getToken(password) async {
-    token =
-        await platform_complex_structure.invokeMethod('create_token', password);
-  }
 
   @override
   void initState() {
@@ -173,7 +167,8 @@ class _UpdateState extends State<Update> {
                               // otherwise.
                               if (_formKey.currentState.validate()) {
                                 // 提交
-                                _getToken(password);
+                                String token = await platform_complex_structure
+                                    .invokeMethod('create_token', password);
 
                                 //更新
                                 selectedData.forEach((device) async {
@@ -199,8 +194,9 @@ class _UpdateState extends State<Update> {
 
                                     ipStart = ipPlusOne(ipStart);
                                   }
+                                  print(token);
                                   String resultRes = await fetchNetworkUpdate(
-                                      device.ip, this.token, data);
+                                      device.ip, token, data);
 
                                   // If the form is valid, display a Snackbar.
                                   Scaffold.of(context).showSnackBar(
