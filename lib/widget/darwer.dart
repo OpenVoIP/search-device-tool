@@ -13,7 +13,9 @@ class Update extends StatefulWidget {
 
 class _UpdateState extends State<Update> {
   final _formKey = GlobalKey<FormState>();
+
   bool _checkboxDHCP = true; //维护复选框状态
+  String message;
 
   String password;
   String gateway;
@@ -171,6 +173,7 @@ class _UpdateState extends State<Update> {
                                     .invokeMethod('create_token', password);
 
                                 //更新
+                                message = "";
                                 selectedData.forEach((device) async {
                                   var data;
                                   if (_checkboxDHCP) {
@@ -195,12 +198,16 @@ class _UpdateState extends State<Update> {
                                     ipStart = ipPlusOne(ipStart);
                                   }
                                   print(token);
-                                  String resultRes = await fetchNetworkUpdate(
+                                  String resMesg = await fetchNetworkUpdate(
                                       device.ip, token, data);
-                                  print(resultRes);
-
+                                  message += resMesg;
                                 });
                                 Navigator.of(context).pop();
+                                if (message != "") {
+                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                    content: Text(message),
+                                  ));
+                                }
                               }
                             },
                             child: Text(
