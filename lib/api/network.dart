@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 Future<String> fetchNetworkUpdate(
     String host, String token, Map<String, String> data) async {
+  print(host);
   print(data);
   final response = await http.post('http://$host/api/set-network-info',
       body: json.encode(data),

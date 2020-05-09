@@ -204,7 +204,7 @@ func Scan(interfaceName string, callback func(*sync.Map)) {
 	go sendARP()
 	go localHost()
 
-	t = time.NewTicker(8 * time.Second)
+	t = time.NewTicker(10 * time.Second)
 	for {
 		select {
 		case <-t.C:
@@ -220,8 +220,8 @@ func Scan(interfaceName string, callback func(*sync.Map)) {
 			case START:
 				t.Stop()
 			case END:
-				// 接收到新数据，重置8秒的计数器
-				t = time.NewTicker(8 * time.Second)
+				// 接收到新数据，重置6秒的计数器
+				t = time.NewTicker(6 * time.Second)
 			}
 		}
 	}
