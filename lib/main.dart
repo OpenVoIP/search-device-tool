@@ -1,4 +1,4 @@
-import 'package:SADPTool/page/home.dart';
+import 'package:search_tool/page/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SADPTool',
+      title: 'SeachTool',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Roboto',

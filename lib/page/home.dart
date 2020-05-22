@@ -1,9 +1,9 @@
-import 'package:SADPTool/utils/eventbus.dart';
-import 'package:SADPTool/widget/darwer.dart';
-import 'package:SADPTool/widget/page_head.dart';
-import 'package:SADPTool/widget/result_table.dart';
-import 'package:SADPTool/widget/result_total.dart';
-import 'package:SADPTool/widget/scan_handle.dart';
+import 'package:search_tool/utils/eventbus.dart';
+import 'package:search_tool/widget/darwer.dart';
+import 'package:search_tool/widget/page_head.dart';
+import 'package:search_tool/widget/result_table.dart';
+import 'package:search_tool/widget/result_total.dart';
+import 'package:search_tool/widget/scan_handle.dart';
 import 'package:flutter/material.dart';
 
 import '../common.dart';

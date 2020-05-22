@@ -1,7 +1,7 @@
-import 'package:SADPTool/api/network.dart';
-import 'package:SADPTool/common.dart';
-import 'package:SADPTool/utils/utils.dart';
-import 'package:SADPTool/widget/divider_admin.dart';
+import 'package:search_tool/api/network.dart';
+import 'package:search_tool/common.dart';
+import 'package:search_tool/utils/utils.dart';
+import 'package:search_tool/widget/divider_admin.dart';
 import 'package:flutter/material.dart';
 
 class Update extends StatefulWidget {
