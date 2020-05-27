@@ -4,8 +4,7 @@ name: package
 
 platform:
   os: darwin
-  arсh: amd64
-
+  arch: amd64
 
 clone:
   disable: true
@@ -16,8 +15,7 @@ steps:
       - echo build macOS Install dmg
       - cd /Users/tqcenglish/SrcCode/Work/Broadcast/search-device-tool
       - pwd
-      - /Users/tqcenglish/Applications/flutter/bin/flutter --version --machine
-      - hover build darwin-dmg --docker
+      - make build
     when:                                
       branch:
       - master
