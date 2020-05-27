@@ -1,0 +1,22 @@
+kind: pipeline
+type: exec
+name: package
+
+platform:
+  os: darwin
+  arсh: amd64
+
+steps:
+  - name: macOS
+    commands:
+      - echo build macOS Install dmg
+      - hover build  darwin-dmg
+    when:                                # 當觸發條件為 master 分支時會執行的動作
+      branch:
+      - master
+
+trigger:
+  branch:
+  - master
+  event:
+  - push
