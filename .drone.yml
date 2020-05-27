@@ -6,12 +6,17 @@ platform:
   os: darwin
   arсh: amd64
 
+
+clone:
+  disable: true
+
 steps:
   - name: macOS
     commands:
       - echo build macOS Install dmg
+      - cd /Users/tqcenglish/SrcCode/Work/Broadcast/search-device-tool
       - hover build darwin-dmg --docker
-    when:                                # 當觸發條件為 master 分支時會執行的動作
+    when:                                
       branch:
       - master
 
