@@ -15,7 +15,7 @@ steps:
       - echo build macOS Install dmg
       - cd /Users/tqcenglish/SrcCode/Work/Broadcast/search-device-tool
       - pwd
-      - make build
+      - make all
     when:                                
       branch:
       - master
