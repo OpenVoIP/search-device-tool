@@ -10,13 +10,11 @@ platform:
 clone:
   disable: true
 
-workspace:
-  path: /Users/tqcenglish/SrcCode/Work/Broadcast/search-device-tool
-
 steps:
   - name: macOS
     commands:
       - echo build macOS Install dmg
+      - cd /Users/tqcenglish/SrcCode/Work/Broadcast/search-device-tool
       - pwd
       - hover build darwin-dmg --docker
     when:                                
