@@ -10,7 +10,7 @@ steps:
   - name: macOS
     commands:
       - echo build macOS Install dmg
-      - hover build  darwin-dmg
+      - hover build darwin-dmg --docker
     when:                                # 當觸發條件為 master 分支時會執行的動作
       branch:
       - master
