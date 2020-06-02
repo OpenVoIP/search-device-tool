@@ -17,14 +17,14 @@ import (
 	"scan/manuf"
 )
 
-// ipNet 存放 IP地址和子网掩码
-var ipNet *net.IPNet
+type iface struct {
+	localHaddr net.HardwareAddr // mac地址，发以太网包需要用到
+	ipNet      *net.IPNet
+	name       string
+}
 
-// 本机的mac地址，发以太网包需要用到
-var localHaddr net.HardwareAddr
-
-// 指定网卡
-var iface string
+// 网卡信息
+var interfaces = make(map[string]iface)
 
 //infos 存放最终的数据，key[string] 存放的是IP地址
 var infos sync.Map
@@ -135,18 +135,19 @@ func setupNetInfo(faceName string) {
 		for _, a := range addr {
 			if ip, ok := a.(*net.IPNet); ok && !ip.IP.IsLoopback() {
 				if ip.IP.To4() != nil && strings.HasPrefix(ip.IP.To4().String(), "192.168") {
-					ipNet = ip
-					localHaddr = it.HardwareAddr
-					iface = it.Name
-					goto END
+					interfaces[it.Name] = iface{
+						localHaddr: it.HardwareAddr,
+						ipNet:      ip,
+						name:       it.Name,
+					}
 				}
 			}
 		}
 	}
 
-END:
-	if ipNet == nil || len(localHaddr) == 0 {
+	if len(interfaces) == 0 {
 		log.Error("无法获取本地网络信息")
+		return
 	}
 
 	// iface Name 重置
@@ -156,36 +157,42 @@ END:
 			log.Error(err)
 			return
 		}
+
+		ipNameMap := make(map[string]string) // ip -> name
 		for _, device := range devices {
 			for _, address := range device.Addresses {
-				if strings.Contains(ipNet.IP.To4().String(), address.IP.String()) {
-					iface = device.Name
-					break
-				}
+				ipNameMap[address.IP.String()] = device.Name
 			}
 		}
+
+		for _, iface := range interfaces {
+			if name, ok := ipNameMap[iface.ipNet.IP.To4().String()]; ok {
+				iface.name = name
+				break
+			}
+		}
+
 	}
 }
 
-func localHost() {
+func localHost(iface iface) {
 	host, _ := os.Hostname()
 	infos.Store(
-		ipNet.IP.String(),
-		Info{Mac: localHaddr, Hostname: strings.TrimSuffix(host, ".local"), Manuf: manuf.Search(localHaddr.String())})
+		iface.ipNet.IP.String(),
+		Info{Mac: iface.localHaddr, Hostname: strings.TrimSuffix(host, ".local"), Manuf: manuf.Search(iface.localHaddr.String())})
+
 }
 
-func sendARP() {
+func sendARP(iface iface) {
 	// ips 是内网IP地址集合
-	ips := Table(ipNet)
+	ips := Table(iface.ipNet)
 	for _, ip := range ips {
-		go sendArpPackage(ip)
+		go sendArpPackage(ip, iface.ipNet, iface.localHaddr, iface.name)
 	}
 }
 
 //Scan 扫描
 func Scan(interfaceName string, callback func(*sync.Map)) {
-	iface = interfaceName
-
 	// 初始化 data
 	do = make(chan string)
 	infos.Range(func(key interface{}, value interface{}) bool {
@@ -194,15 +201,18 @@ func Scan(interfaceName string, callback func(*sync.Map)) {
 	})
 
 	// 初始化 网络信息
-	setupNetInfo(iface)
+	setupNetInfo(interfaceName)
 
 	// 开始查询
 	ctx, cancel := context.WithCancel(context.Background())
-	go listenARP(ctx)
-	go listenMDNS(ctx)
-	go listenNBNS(ctx)
-	go sendARP()
-	go localHost()
+
+	for _, iface := range interfaces {
+		go listenARP(ctx, iface)
+		go listenMDNS(ctx, iface)
+		go listenNBNS(ctx, iface)
+		go sendARP(iface)
+		go localHost(iface)
+	}
 
 	t = time.NewTicker(10 * time.Second)
 	for {

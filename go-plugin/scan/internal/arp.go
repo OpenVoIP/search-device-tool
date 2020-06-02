@@ -14,10 +14,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func listenARP(ctx context.Context) {
-	handle, err := pcap.OpenLive(iface, 1024, false, 10*time.Second)
+func listenARP(ctx context.Context, iface iface) {
+	log.Errorf("pcap open live: %s", iface.name)
+	handle, err := pcap.OpenLive(iface.name, 1024, false, 10*time.Second)
 	if err != nil {
 		log.Errorf("pcap打开失败: %+v", err)
+		return
 	}
 	defer handle.Close()
 	handle.SetBPFFilter("arp")
@@ -34,9 +36,9 @@ func listenARP(ctx context.Context) {
 				ip := ParseIP(arp.SourceProtAddress).String()
 				pushData(ip, mac, "", m)
 				if strings.Contains(m, "Apple") {
-					go sendMDNS(ParseIP(arp.SourceProtAddress), mac)
+					go sendMDNS(ParseIP(arp.SourceProtAddress), iface.ipNet, mac, iface.localHaddr, iface.name)
 				} else {
-					go sendNBNS(ParseIP(arp.SourceProtAddress), mac)
+					go sendNBNS(ParseIP(arp.SourceProtAddress), iface.ipNet, mac, iface.localHaddr, iface.name)
 				}
 			}
 		}
@@ -44,7 +46,7 @@ func listenARP(ctx context.Context) {
 }
 
 //sendArpPackage  发送arp包 ip 目标IP地址
-func sendArpPackage(ip IP) {
+func sendArpPackage(ip IP, ipNet *net.IPNet, haddr net.HardwareAddr, name string) {
 	srcIP := net.ParseIP(ipNet.IP.String()).To4()
 	dstIP := net.ParseIP(ip.String()).To4()
 	if srcIP == nil || dstIP == nil {
@@ -54,7 +56,7 @@ func sendArpPackage(ip IP) {
 	// 以太网首部
 	// EthernetType 0x0806  ARP
 	ether := &layers.Ethernet{
-		SrcMAC:       localHaddr,
+		SrcMAC:       haddr,
 		DstMAC:       net.HardwareAddr{0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
 		EthernetType: layers.EthernetTypeARP,
 	}
@@ -65,7 +67,7 @@ func sendArpPackage(ip IP) {
 		HwAddressSize:     uint8(6),
 		ProtAddressSize:   uint8(4),
 		Operation:         uint16(1), // 0x0001 arp request 0x0002 arp response
-		SourceHwAddress:   localHaddr,
+		SourceHwAddress:   haddr,
 		SourceProtAddress: srcIP,
 		DstHwAddress:      net.HardwareAddr{0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
 		DstProtAddress:    dstIP,
@@ -76,7 +78,7 @@ func sendArpPackage(ip IP) {
 	gopacket.SerializeLayers(buffer, opt, ether, a)
 	outgoingPacket := buffer.Bytes()
 
-	handle, err := pcap.OpenLive(iface, 2048, false, 30*time.Second)
+	handle, err := pcap.OpenLive(name, 2048, false, 30*time.Second)
 	if err != nil {
 		log.Errorf("pcap打开失败: %+v", err)
 		return

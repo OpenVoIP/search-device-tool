@@ -15,14 +15,14 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func listenNBNS(ctx context.Context) {
-	handle, err := pcap.OpenLive(iface, 1024, false, 10*time.Second)
+func listenNBNS(ctx context.Context, iface iface) {
+	handle, err := pcap.OpenLive(iface.name, 1024, false, 10*time.Second)
 	if err != nil {
 		log.Errorf("pcap打开失败:%+v", err)
 		return
 	}
 	defer handle.Close()
-	handle.SetBPFFilter("udp and port 137 and dst host " + ipNet.IP.String())
+	handle.SetBPFFilter("udp and port 137 and dst host " + iface.ipNet.IP.String())
 	ps := gopacket.NewPacketSource(handle, handle.LinkType())
 	for {
 		select {
@@ -80,7 +80,7 @@ func nbns(buffer *utils.Buffer) {
 }
 
 //sendNBNS nbns
-func sendNBNS(ip IP, mhaddr net.HardwareAddr) {
+func sendNBNS(ip IP, ipNet *net.IPNet, mhaddr, localHaddr net.HardwareAddr, name string) {
 	srcIP := net.ParseIP(ipNet.IP.String()).To4()
 	dstIP := net.ParseIP(ip.String()).To4()
 	ether := &layers.Ethernet{
@@ -118,7 +118,7 @@ func sendNBNS(ip IP, mhaddr net.HardwareAddr) {
 	}
 	outgoingPacket := buffer.Bytes()
 
-	handle, err := pcap.OpenLive(iface, 1024, false, 10*time.Second)
+	handle, err := pcap.OpenLive(name, 1024, false, 10*time.Second)
 	if err != nil {
 		log.Errorf("pcap打开失败: %+v", err)
 		return
