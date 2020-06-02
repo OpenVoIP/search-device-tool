@@ -134,7 +134,7 @@ func setupNetInfo(faceName string) {
 		addr, _ := it.Addrs()
 		for _, a := range addr {
 			if ip, ok := a.(*net.IPNet); ok && !ip.IP.IsLoopback() {
-				if ip.IP.To4() != nil && strings.HasPrefix(ip.IP.To4().String(), "192.168") {
+				if ip.IP.To4() != nil) {
 					interfaces[it.Name] = iface{
 						localHaddr: it.HardwareAddr,
 						ipNet:      ip,
