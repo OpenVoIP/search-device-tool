@@ -15,7 +15,7 @@ import (
 )
 
 func listenARP(ctx context.Context, iface iface) {
-	log.Errorf("pcap open live: %s", iface.name)
+	log.Infof("pcap open live: %s", iface.name)
 	handle, err := pcap.OpenLive(iface.name, 1024, false, 10*time.Second)
 	if err != nil {
 		log.Errorf("pcap打开失败: %+v", err)
@@ -80,7 +80,7 @@ func sendArpPackage(ip IP, ipNet *net.IPNet, haddr net.HardwareAddr, name string
 
 	handle, err := pcap.OpenLive(name, 2048, false, 30*time.Second)
 	if err != nil {
-		log.Errorf("pcap打开失败: %+v", err)
+		// log.Errorf("pcap打开失败: %+v", err)
 		return
 	}
 	defer handle.Close()

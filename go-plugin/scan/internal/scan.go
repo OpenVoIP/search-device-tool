@@ -130,16 +130,45 @@ func setupNetInfo(faceName string) {
 		return
 	}
 
+	// iface Name 重置
+	ipNameMap := make(map[string]string) // ip -> name
+	if utils.IsWindows() {
+		devices, err := pcap.FindAllDevs()
+		if err != nil {
+			log.Error(err)
+			return
+		}
+
+		for _, device := range devices {
+			for _, address := range device.Addresses {
+				ipNameMap[address.IP.String()] = device.Name
+			}
+		}
+
+	}
+
 	for _, it := range ifs {
 		addr, _ := it.Addrs()
 		for _, a := range addr {
 			if ip, ok := a.(*net.IPNet); ok && !ip.IP.IsLoopback() {
-				if ip.IP.To4() != nil) {
-					interfaces[it.Name] = iface{
-						localHaddr: it.HardwareAddr,
-						ipNet:      ip,
-						name:       it.Name,
+				if ip.IP.To4() != nil {
+					ifaceName := ""
+					if utils.IsWindows() {
+						if name, ok := ipNameMap[ip.IP.String()]; ok {
+							ifaceName = name
+						}
+					} else {
+						ifaceName = it.Name
 					}
+
+					if ifaceName != "" {
+						interfaces[ip.IP.To4().String()] = iface{
+							localHaddr: it.HardwareAddr,
+							ipNet:      ip,
+							name:       ifaceName,
+						}
+					}
+
 				}
 			}
 		}
@@ -148,30 +177,6 @@ func setupNetInfo(faceName string) {
 	if len(interfaces) == 0 {
 		log.Error("无法获取本地网络信息")
 		return
-	}
-
-	// iface Name 重置
-	if utils.IsWindows() {
-		devices, err := pcap.FindAllDevs()
-		if err != nil {
-			log.Error(err)
-			return
-		}
-
-		ipNameMap := make(map[string]string) // ip -> name
-		for _, device := range devices {
-			for _, address := range device.Addresses {
-				ipNameMap[address.IP.String()] = device.Name
-			}
-		}
-
-		for _, iface := range interfaces {
-			if name, ok := ipNameMap[iface.ipNet.IP.To4().String()]; ok {
-				iface.name = name
-				break
-			}
-		}
-
 	}
 }
 
@@ -193,6 +198,7 @@ func sendARP(iface iface) {
 
 //Scan 扫描
 func Scan(interfaceName string, callback func(*sync.Map)) {
+	log.SetReportCaller(true)
 	// 初始化 data
 	do = make(chan string)
 	infos.Range(func(key interface{}, value interface{}) bool {
