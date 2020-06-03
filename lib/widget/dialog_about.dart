@@ -24,7 +24,7 @@ class _AboutInfoDialogState extends State<AboutInfoDialog> {
             Row(
               children: <Widget>[
                 Text('使用说明:'),
-                Text('本程序使用 arp 扫描局域网内通信设备(即不支持跨网段)'),
+                Text('本程序使用 arp 扫描局域网内通信设备(即不支持跨网段), 依赖 wincap 库， 务必安装'),
               ],
             )
           ],
