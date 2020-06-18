@@ -1,6 +1,6 @@
-import 'package:SADPTool/utils/eventbus.dart';
-import 'package:SADPTool/widget/dialog_about.dart';
-import 'package:SADPTool/widget/dialog_setting.dart';
+import 'package:search_tool/utils/eventbus.dart';
+import 'package:search_tool/widget/dialog_about.dart';
+import 'package:search_tool/widget/dialog_setting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
