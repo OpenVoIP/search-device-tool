@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:SADPTool/utils/eventbus.dart';
 import 'package:SADPTool/widget/dialog_about.dart';
 import 'package:SADPTool/widget/dialog_setting.dart';

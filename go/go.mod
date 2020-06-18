@@ -1,4 +1,4 @@
-module SADPTool/go
+module search_tool/go
 
 go 1.14
 

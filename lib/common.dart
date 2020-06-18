@@ -1,4 +1,4 @@
-import 'package:SADPTool/model/item.dart';
+import 'package:search_tool/model/item.dart';
 import 'package:flutter/services.dart';
 
 var result = List<ScanItem>();
