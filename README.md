@@ -9,3 +9,9 @@ hover run
 ```
 
 ![demo](./docs/example.jpg)
+
+
+## FAQ
+
+https://github.com/go-flutter-desktop/go-flutter/issues/526
+https://github.com/go-flutter-desktop/hover/pull/175
