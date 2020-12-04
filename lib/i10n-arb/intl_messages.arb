@@ -1,0 +1,21 @@
+{
+  "@@last_modified": "2020-12-04T17:02:16.330151",
+  "Device search does not support cross-network segment": "Device search does not support cross-network segment",
+  "Please click here to download and install WinPcap": "Please click here to download and install WinPcap",
+  "Submit": "Submit",
+  "Subnet Mask": "Subnet Mask",
+  "Router": "Router",
+  "Close": "Close",
+  "Setting": "Setting",
+  "Online Total": "Online Total",
+  "Export": "Export",
+  "Refresh": "Refresh",
+  "Search By Mac": "Search By Mac",
+  "Number": "Number",
+  "Language": "Language",
+  "Model": "Model",
+  "Name": "Name",
+  "Company": "Company",
+  "Password": "Password",
+  "Admin Password": "Admin Password"
+}

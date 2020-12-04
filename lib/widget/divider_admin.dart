@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:search_tool/i10n/localizations.dart';
+import 'package:search_tool/main.dart';
 
 class DividerAdmin extends CustomPainter {
   Paint defaultPaint;
@@ -18,7 +20,10 @@ class DividerAdmin extends CustomPainter {
     canvas.drawLine(Offset(230, 10), Offset(400, 10), defaultPaint);
 
     TextSpan span = new TextSpan(
-        style: new TextStyle(color: Colors.blue[800]), text: "密码认证");
+      style: new TextStyle(color: Colors.blue[800]),
+      text: AppLocalizations.of(navigatorKey.currentState.overlay.context)
+          .password,
+    );
     TextPainter tp = new TextPainter(
         text: span,
         textAlign: TextAlign.center,

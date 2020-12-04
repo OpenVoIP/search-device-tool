@@ -1,3 +1,4 @@
+import 'package:search_tool/i10n/localizations.dart';
 import 'package:search_tool/model/item.dart';
 import 'package:search_tool/utils/eventbus.dart';
 import 'package:search_tool/widget/alert_dialog.dart';
@@ -17,8 +18,9 @@ class _Handletate extends State<Handle> {
     String result = await platform_complex_structure.invokeMethod('download');
     showDialog<void>(
       context: context,
-      builder: (BuildContext context) =>
-          CustomDialog(msg: '保存路径 $result', title: "下载"),
+      builder: (BuildContext context) => CustomDialog(
+          msg: AppLocalizations.of(context).saveTo + ' $result',
+          title: AppLocalizations.of(context).dowload),
     );
   }
 
@@ -67,7 +69,7 @@ class _Handletate extends State<Handle> {
               color: Colors.red,
               onPressed: () => {_download()},
               child: Text(
-                '导出',
+                AppLocalizations.of(context).export,
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -77,7 +79,7 @@ class _Handletate extends State<Handle> {
             child: FlatButton(
               color: Colors.blue,
               child: Text(
-                "刷新",
+                AppLocalizations.of(context).refresh,
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
@@ -106,7 +108,7 @@ class _Handletate extends State<Handle> {
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey),
                   ),
-                  hintText: '搜索 mac',
+                  hintText: AppLocalizations.of(context).serchByMac,
                 ),
               ))
         ],

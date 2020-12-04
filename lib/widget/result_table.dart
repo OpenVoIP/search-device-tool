@@ -1,4 +1,5 @@
 import 'package:search_tool/common.dart';
+import 'package:search_tool/i10n/localizations.dart';
 import 'package:search_tool/model/item.dart';
 import 'package:search_tool/utils/eventbus.dart';
 import 'package:flutter/cupertino.dart';
@@ -90,7 +91,7 @@ class _DataResultState extends State<DataResult> {
             showCheckboxColumn: true,
             columns: [
               DataColumn(
-                  label: Text("编号"),
+                  label: Text(AppLocalizations.of(context).number),
                   onSort: (int columnIndex, bool ascending) {
                     setState(() {
                       _sortAscending = ascending;
@@ -103,7 +104,7 @@ class _DataResultState extends State<DataResult> {
                     });
                   }),
               DataColumn(
-                  label: Text("IP 地址"),
+                  label: Text("IP"),
                   onSort: (int columnIndex, bool ascending) {
                     setState(() {
                       _sortColumnIndex = columnIndex;
@@ -116,7 +117,7 @@ class _DataResultState extends State<DataResult> {
                     });
                   }),
               DataColumn(
-                  label: Text("Mac 地址"),
+                  label: Text("Mac"),
                   onSort: (int columnIndex, bool ascending) {
                     setState(() {
                       _sortColumnIndex = columnIndex;
@@ -130,7 +131,7 @@ class _DataResultState extends State<DataResult> {
                   }),
               DataColumn(
                   label: Text(
-                    "型号",
+                    AppLocalizations.of(context).model,
                   ),
                   onSort: (int columnIndex, bool ascending) {
                     setState(() {
@@ -144,7 +145,7 @@ class _DataResultState extends State<DataResult> {
                     });
                   }),
               DataColumn(
-                  label: Text("主机名"),
+                  label: Text(AppLocalizations.of(context).name),
                   onSort: (int columnIndex, bool ascending) {
                     setState(() {
                       _sortColumnIndex = columnIndex;
@@ -157,7 +158,7 @@ class _DataResultState extends State<DataResult> {
                     });
                   }),
               DataColumn(
-                  label: Text("厂家"),
+                  label: Text(AppLocalizations.of(context).company),
                   onSort: (int columnIndex, bool ascending) {
                     setState(() {
                       _sortColumnIndex = columnIndex;

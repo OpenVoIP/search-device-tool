@@ -1,5 +1,5 @@
+import 'package:search_tool/i10n/localizations.dart';
 import 'package:search_tool/utils/eventbus.dart';
-import 'package:search_tool/widget/dialog_about.dart';
 import 'package:search_tool/widget/dialog_setting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -26,14 +26,15 @@ class Head extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "设备搜索不支持跨网段,",
+                      AppLocalizations.of(context).tip1,
                       style: TextStyle(color: Colors.red, fontSize: 16),
                     ),
+                    SizedBox(width: 20),
                     RichText(
                       text: TextSpan(
                         style: TextStyle(
                             color: Colors.lightBlue[400], fontSize: 18),
-                        text: "请务必点击此处下载安装 WinPcap",
+                        text: AppLocalizations.of(context).tip2,
                         recognizer: TapGestureRecognizer()
                           ..onTap = () async {
                             final url = 'https://www.winpcap.org';
@@ -55,19 +56,20 @@ class Head extends StatelessWidget {
                     onPressed: () {
                       showDialog<void>(
                         context: context,
-                        builder: (BuildContext context) => SettingDialog(),
+                        builder: (BuildContext context) =>
+                            Center(child: SettingDialog()),
                       );
                     },
                   ),
-                  IconButton(
-                    icon: Icon(Icons.info, color: Colors.white),
-                    onPressed: () {
-                      showDialog<void>(
-                        context: context,
-                        builder: (BuildContext context) => AboutInfoDialog(),
-                      );
-                    },
-                  ),
+                  // IconButton(
+                  //   icon: Icon(Icons.info, color: Colors.white),
+                  //   onPressed: () {
+                  //     showDialog<void>(
+                  //       context: context,
+                  //       builder: (BuildContext context) => AboutInfoDialog(),
+                  //     );
+                  //   },
+                  // ),
                   IconButton(
                     icon: Icon(Icons.build, color: Colors.white),
                     onPressed: () {

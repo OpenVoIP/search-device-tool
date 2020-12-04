@@ -80,14 +80,14 @@ func (p *PluginInfo) download(arguments interface{}) (replay interface{}, err er
 	file.DeleteSheet("Sheet1")
 
 	// Create a new sheet.
-	index := file.NewSheet("设备信息")
+	index := file.NewSheet("Devices")
 
 	// Set value of a cell.
 	log.Info("设置文件 title")
-	file.SetCellValue("设备信息", "A1", "IP")
-	file.SetCellValue("设备信息", "B1", "MAC")
-	file.SetCellValue("设备信息", "C1", "Hostname")
-	file.SetCellValue("设备信息", "D1", "Manuf")
+	file.SetCellValue("Devices", "A1", "IP")
+	file.SetCellValue("Devices", "B1", "MAC")
+	file.SetCellValue("Devices", "C1", "Hostname")
+	file.SetCellValue("Devices", "D1", "Manuf")
 
 	log.Info("设置文件值")
 	count := 1
@@ -96,10 +96,10 @@ func (p *PluginInfo) download(arguments interface{}) (replay interface{}, err er
 		info := value.(string)
 		data := strings.Split(info, "###")
 		log.Info(info, data[0], data[1], data[2], data[3])
-		file.SetCellValue("设备信息", fmt.Sprintf("A%d", count), data[0])
-		file.SetCellValue("设备信息", fmt.Sprintf("B%d", count), data[1])
-		file.SetCellValue("设备信息", fmt.Sprintf("C%d", count), data[2])
-		file.SetCellValue("设备信息", fmt.Sprintf("D%d", count), data[3])
+		file.SetCellValue("Devices", fmt.Sprintf("A%d", count), data[0])
+		file.SetCellValue("Devices", fmt.Sprintf("B%d", count), data[1])
+		file.SetCellValue("Devices", fmt.Sprintf("C%d", count), data[2])
+		file.SetCellValue("Devices", fmt.Sprintf("D%d", count), data[3])
 	}
 
 	// Set active sheet of the workbook.
@@ -113,7 +113,7 @@ func (p *PluginInfo) download(arguments interface{}) (replay interface{}, err er
 		return "获取用户目录失败", nil
 	}
 	log.Infof("保存到目录 %s", home)
-	if err := file.SaveAs(fmt.Sprintf("%s/设备信息.xlsx", home)); err != nil {
+	if err := file.SaveAs(fmt.Sprintf("%s/Devices.xlsx", home)); err != nil {
 		log.Error("下载失败 %+v", err)
 		return "保存文件失败", nil
 	}

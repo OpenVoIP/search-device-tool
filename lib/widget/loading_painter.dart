@@ -1,5 +1,4 @@
-import 'dart:math';
-
+// import 'dart:math';
 import 'package:flutter/material.dart';
 
 class LoadPainter extends CustomPainter {
@@ -16,12 +15,12 @@ class LoadPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     //绘制逻辑
-    double wheelSize = min(size.width, size.height) / 2; //饼图的尺寸
-    double nbElem = 6; //分成6份
-    double radius = (2 * pi) / nbElem; //1/6圆
+    // double wheelSize = min(size.width, size.height) / 2; //饼图的尺寸
+    // double nbElem = 6; //分成6份
+    // double radius = (2 * pi) / nbElem; //1/6圆
     //包裹饼图这个圆形的矩形框
-    Rect boundingRect = Rect.fromCircle(
-        center: Offset(wheelSize, wheelSize), radius: wheelSize);
+    // Rect boundingRect = Rect.fromCircle(
+    //     center: Offset(wheelSize, wheelSize), radius: wheelSize);
     // 每次画1/6个圆弧
     // canvas.drawArc(
     //     boundingRect, 0, radius, true, getColoredPaint(Colors.orange));

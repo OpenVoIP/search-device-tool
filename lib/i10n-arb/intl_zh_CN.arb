@@ -1,0 +1,21 @@
+{
+  "@@last_modified": "2020-12-04T17:02:16.330151",
+  "Device search does not support cross-network segment": "不支持跨网段扫描",
+  "Please click here to download and install WinPcap": "务必下载安装WinPcap",
+  "Submit": "提交",
+  "Subnet Mask": "子网掩码",
+  "Router": "网关",
+  "Close": "关闭",
+  "Setting": "设置",
+  "Online Total": "在线总数",
+  "Export": "导出",
+  "Refresh": "刷新",
+  "Search By Mac": "搜索",
+  "Number": "编号",
+  "Language": "语言",
+  "Model": "型号",
+  "Name": "名字",
+  "Company": "公司",
+  "Password": "密码",
+  "Admin Password": "管理员密码"
+}

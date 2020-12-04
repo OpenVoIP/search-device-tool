@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:search_tool/i10n/localizations.dart';
 
 class Result extends StatelessWidget {
   const Result({Key key, this.total}) : super(key: key);
@@ -14,7 +15,7 @@ class Result extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(left: 50, right: 10),
-              child: Text("在线设备总数:"),
+              child: Text(AppLocalizations.of(context).onlineTotal),
             ),
             Container(
               height: 40,

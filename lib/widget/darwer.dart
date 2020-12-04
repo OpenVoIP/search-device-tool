@@ -1,5 +1,6 @@
 import 'package:search_tool/api/network.dart';
 import 'package:search_tool/common.dart';
+import 'package:search_tool/i10n/localizations.dart';
 import 'package:search_tool/utils/utils.dart';
 import 'package:search_tool/widget/divider_admin.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _UpdateState extends State<Update> {
             Container(
               margin: EdgeInsets.all(20),
               child: Text(
-                '修改 ${selectedData.length} 台设备网络',
+                '${selectedData.length}',
                 style: TextStyle(fontSize: 30),
               ),
             ),
@@ -56,7 +57,7 @@ class _UpdateState extends State<Update> {
                       },
                     ),
                     Text(
-                      '开启 DHCP',
+                      'DHCP',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
@@ -76,12 +77,12 @@ class _UpdateState extends State<Update> {
                           border: OutlineInputBorder(),
                           labelText: selectedData.length == 1
                               ? "IP"
-                              : "开始 IP, 后续IP自动 +1",
+                              : "Start IP, other automatic +1",
                           labelStyle: TextStyle(fontSize: 25),
                         ),
                         validator: (value) {
                           if (value.isEmpty && !_checkboxDHCP) {
-                            return '输入 IP';
+                            return 'IP';
                           }
                           return null;
                         },
@@ -108,12 +109,12 @@ class _UpdateState extends State<Update> {
                         enabled: !_checkboxDHCP,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: "子网掩码",
+                          labelText: AppLocalizations.of(context).mask,
                           labelStyle: TextStyle(fontSize: 25),
                         ),
                         validator: (value) {
                           if (value.isEmpty && !_checkboxDHCP) {
-                            return '子网掩码';
+                            return '';
                           }
                           return null;
                         },
@@ -126,12 +127,12 @@ class _UpdateState extends State<Update> {
                         enabled: !_checkboxDHCP,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: "网关",
+                          labelText: AppLocalizations.of(context).router,
                           labelStyle: TextStyle(fontSize: 25),
                         ),
                         validator: (value) {
                           if (value.isEmpty && !_checkboxDHCP) {
-                            return '网关';
+                            return '';
                           }
                           return null;
                         },
@@ -145,12 +146,12 @@ class _UpdateState extends State<Update> {
                       TextFormField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: "管理员密码",
+                          labelText: AppLocalizations.of(context).adminPassword,
                           labelStyle: TextStyle(fontSize: 25),
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return '必须填写密码';
+                            return 'required';
                           }
                           return null;
                         },
@@ -198,7 +199,8 @@ class _UpdateState extends State<Update> {
                                   print(token);
                                   String resMesg = await fetchNetworkUpdate(
                                       device.ip, token, data);
-                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
                                     content: Text(resMesg),
                                   ));
                                 });
@@ -206,7 +208,7 @@ class _UpdateState extends State<Update> {
                               }
                             },
                             child: Text(
-                              '提交修改',
+                              AppLocalizations.of(context).submit,
                               style:
                                   TextStyle(color: Colors.white, fontSize: 25),
                             ),
