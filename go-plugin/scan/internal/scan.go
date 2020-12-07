@@ -138,7 +138,6 @@ func setupNetInfo(faceName string) {
 			log.Error(err)
 			return
 		}
-
 		for _, device := range devices {
 			for _, address := range device.Addresses {
 				ipNameMap[address.IP.String()] = device.Name
@@ -147,20 +146,24 @@ func setupNetInfo(faceName string) {
 
 	}
 
+	log.Info(ifs)
 	for _, it := range ifs {
-		addr, _ := it.Addrs()
+		addr, err := it.Addrs()
+		if err != nil {
+			log.Errorf("get addr error %+v", addr)
+		}
 		for _, a := range addr {
 			if ip, ok := a.(*net.IPNet); ok && !ip.IP.IsLoopback() {
 				if ip.IP.To4() != nil {
 					ifaceName := ""
 					if utils.IsWindows() {
+						log.Infof("ip %s", ip.IP.String())
 						if name, ok := ipNameMap[ip.IP.String()]; ok {
 							ifaceName = name
 						}
 					} else {
 						ifaceName = it.Name
 					}
-
 					if ifaceName != "" {
 						interfaces[ip.IP.To4().String()] = iface{
 							localHaddr: it.HardwareAddr,
@@ -169,6 +172,8 @@ func setupNetInfo(faceName string) {
 						}
 					}
 
+				} else {
+					log.Warnf("IP4 is nil %+v", ip.IP)
 				}
 			}
 		}
