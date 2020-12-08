@@ -90,15 +90,15 @@ class _Handletate extends State<Handle> {
           ),
           Container(
               width: 200,
-              margin: EdgeInsets.only(right: 50),
+              margin: EdgeInsets.only(right: 70, left: 20),
               child: TextField(
                 onSubmitted: (text) {
                   bus.emit("filter", text);
                 },
                 decoration: InputDecoration(
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.all(0.0),
-                    child: Icon(Icons.search, size: 18),
+                  prefixIcon: Container(
+                    height: 20,
+                    child: Icon(Icons.search, size: 30),
                   ),
                   isDense: true,
                   contentPadding: EdgeInsets.all(0),

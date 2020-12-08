@@ -14,7 +14,7 @@ import (
 func Home() (string, error) {
 	user, err := user.Current()
 	if nil == err {
-		return user.HomeDir, nil
+		return user.HomeDir + "/Desktop/", nil
 	}
 
 	// cross compile support

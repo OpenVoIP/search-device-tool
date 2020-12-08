@@ -33,6 +33,8 @@ var Results map[interface{}]interface{}
 
 //InitPlugin inits
 func (p *PluginInfo) InitPlugin(messenger plugin.BinaryMessenger) error {
+	log.SetReportCaller(false)
+
 	channel := plugin.NewMethodChannel(messenger, channelName, plugin.StandardMethodCodec{})
 	channel.HandleFunc("start_scan", p.scan)
 	channel.HandleFunc("download", p.download)
@@ -77,10 +79,11 @@ func (p *PluginInfo) scan(arguments interface{}) (reply interface{}, err error) 
 func (p *PluginInfo) download(arguments interface{}) (replay interface{}, err error) {
 	log.Info("创建下载文件")
 	file := excelize.NewFile()
-	file.DeleteSheet("Sheet1")
 
 	// Create a new sheet.
 	index := file.NewSheet("Devices")
+
+	file.DeleteSheet("Sheet1")
 
 	// Set value of a cell.
 	log.Info("设置文件 title")

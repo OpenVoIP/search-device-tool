@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:search_tool/i10n/localizations.dart';
 
 class CustomDialog extends StatelessWidget {
   CustomDialog({Key key, this.msg, this.title}) : super(key: key);
@@ -15,7 +16,7 @@ class CustomDialog extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context, false);
           },
-          child: const Text('关闭'),
+          child: Text(AppLocalizations.of(context).close),
         ),
       ],
     );

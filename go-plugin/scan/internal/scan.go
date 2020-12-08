@@ -146,7 +146,6 @@ func setupNetInfo(faceName string) {
 
 	}
 
-	log.Info(ifs)
 	for _, it := range ifs {
 		addr, err := it.Addrs()
 		if err != nil {
@@ -171,9 +170,6 @@ func setupNetInfo(faceName string) {
 							name:       ifaceName,
 						}
 					}
-
-				} else {
-					log.Warnf("IP4 is nil %+v", ip.IP)
 				}
 			}
 		}
