@@ -57,6 +57,9 @@ String getModel(String mac) {
     case "28":
       model = "M100";
       break;
+    case "29":
+      model = "X10";
+      break;
     default:
   }
 
