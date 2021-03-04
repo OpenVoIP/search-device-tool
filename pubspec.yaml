@@ -34,14 +34,13 @@ dependencies:
   flappy_search_bar: ^1.7.2
   path_provider: ^1.6.7
   flutter_spinkit: ^4.1.2
-  intl: ^0.16.0
+  intl: ^0.17.0
   http: ^0.12.1
   provider: ^4.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  intl_translation: ^0.17.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
