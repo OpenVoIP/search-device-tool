@@ -2,6 +2,7 @@ target: lib/main_desktop.dart
 application-name: "Search Device"
 executable-name: "searchDevice"
 package-name: "search_tool"
+organization-name: "tqcenglish"
 # cache-path: "/home/YOURUSERNAME/.cache/" #  https://github.com/go-flutter-desktop/go-flutter/issues/184
 # opengl: "none" # Uncomment this line if you have trouble with your OpenGL driver (https://github.com/go-flutter-desktop/go-flutter/issues/272)
 docker: false

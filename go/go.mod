@@ -8,7 +8,7 @@ require (
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20201108214237-06ea97f0c265 // indirect
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/pkg/errors v0.9.1
-	golang.org/x/sys v0.0.0-20210303074136-134d130e1a04 // indirect
+	golang.org/x/sys v0.0.0-20210304124612-50617c2ba197 // indirect
 	gopkg.in/yaml.v2 v2.2.4 // indirect
 	scan v0.0.1
 )
